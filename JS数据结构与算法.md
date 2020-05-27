@@ -632,3 +632,54 @@ a(n)x ^ n + a(n-1)x ^(n-1) + a(n-2)x ^(n-2) ...
 
 不会产生循环，还可以让数据在哈希表上分布更加均匀
 
+
+
+## 哈希表的扩容
+
+链地址法，loadFactor理论上可以大于1
+
+但是数据量增多，index对应的bucket越来越长，会造成查询时的效率降低
+
+哈希表进行扩容后，需要重新的进行哈希化
+
+一般在loadFactor>0.75的时候就需要进行扩容
+
+### 哈希表扩容为质数
+
+- 判断一个数是否为质数
+
+最简单的做法
+
+```js
+function isPrime(num) {
+    for (let i = 2; i < num; i ++) {
+        if (num % i == 0) {
+            return false
+        }
+    }
+    return true
+}
+```
+
+但是其实一个数字一旦可以因数分解，分解到的数字必定小于sqrt(n)
+
+比如16，最大4*4，一定有一个小于4
+
+所以其实最后其实范围为
+
+```js
+Math.floor(Math.sqrt(num))
+```
+
+这样只要涉及一个函数得到对应的质数
+
+```js
+function get_prime(num) {
+	while (! isPrime(num)) {
+		num ++
+	}
+	return num
+}
+```
+
+实现了质数扩容
