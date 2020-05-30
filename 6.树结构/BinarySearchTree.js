@@ -44,6 +44,53 @@ function BinarySearchTree() {
             }
         }
     }
+
+    // 先序遍历的实现
+    BinarySearchTree.prototype.preOrderTraversal = (handler) => {
+        this.preOrderTraversalNode(this.root, handler)
+    }
+    // 第一次：node 根节点
+    // 第二次：node 左节点
+    // 第三次: node 左节点的左节点
+    // 第四次：node左节点的左节点的左节点
+    BinarySearchTree.prototype.preOrderTraversalNode = (node, handler) => {
+        if (node == null) {
+            return
+        }else {
+            // 1。处理经过的节点
+            handler(node.key)
+            // 处理经过节点的左子节点
+            this.preOrderTraversalNode(node.left, handler)
+            // 处理经过节点的右子节点
+            this.preOrderTraversalNode(node.right, handler)
+        }
+    }
+
+    // 中序遍历
+    BinarySearchTree.prototype.inOrderTraversal = (handler) => {
+        this.inOrderTraversalNode(this.root, handler)
+    }
+
+    BinarySearchTree.prototype.inOrderTraversalNode = (node, handler) => {
+        if (node != null) {
+            this.inOrderTraversalNode(node.left, handler)
+            handler(node.key)
+            this.inOrderTraversalNode(node.right, handler)
+        }
+    }
+
+    // 后序遍历
+    BinarySearchTree.prototype.postOrderTraversal = (handler) => {
+        this.postOrderTraversalNode(this.root, handler)
+    }
+
+    BinarySearchTree.prototype.postOrderTraversalNode = (node, handler) => {
+        if (node != null) {
+            this.postOrderTraversalNode(node.left, handler)
+            this.postOrderTraversalNode(node.right, handler)
+            handler(node.key)
+        }
+    }
 }
 
 // 测试代码
@@ -62,3 +109,24 @@ binary_search_tree.insert(14)
 binary_search_tree.insert(20)
 binary_search_tree.insert(18)
 binary_search_tree.insert(25)
+binary_search_tree.insert(6)
+
+// 测试
+// let res = ''
+// binary_search_tree.preOrderTraversal(function (key) {
+//     res += key + ' '
+// })
+// console.log(res)
+
+// let res = ''
+// binary_search_tree.inOrderTraversal(function (key) {
+//     res += key + ' '
+// })
+// console.log(res)
+
+let res = ''
+binary_search_tree.postOrderTraversal(function (key) {
+    res += key + ' '
+})
+
+console.log(res)

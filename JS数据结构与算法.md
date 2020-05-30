@@ -865,9 +865,33 @@ BinarySearchTree.prototype.insert = function (key) {
 
 
 1. search(key)查询一个键，若果存在，返回true，不存在，返回false
+
 2. inOrderTraverse: 中序遍历
+
+   - 中序遍历左子树
+   - 访问根节点
+   - 中序遍历右子树
+
+   ![](D:\JavaScript数据结构算法\二叉搜索树--中序遍历.png)
+
 3. preOrderTraverse: 先序遍历
+
+   - 先访问根节点
+   - 先序遍历左子树
+   - 先序遍历右子树
+
+   ![](D:\JavaScript数据结构算法\二叉搜索树--先序遍历.png)
+
 4. postOrderTraverse: 后序遍历
+
+   - 先访问左子树
+   - 再访问右子树
+   - 最后访问根节点
+
+   ![](D:\JavaScript数据结构算法\二叉搜索树--后序遍历.png)
+
 5. remove(key) : 删除某个键
+
 6. min: 返回树中最小的键
+
 7. max: 返回树中最大的键
