@@ -91,6 +91,126 @@ function BinarySearchTree() {
             handler(node.key)
         }
     }
+
+    // 最大值和最小值
+    BinarySearchTree.prototype.searchMin = () => {
+        // 拿到根节点
+        let node = this.root
+        // 左节点还存在，一直往左走
+        while (node.left) {
+            node = node.left
+        }
+        // 左节点不存在了，返回
+        return node
+    }
+
+    BinarySearchTree.prototype.searchMax = () => {
+        // 拿到根节点
+        let node = this.root
+        // 一直向右查找
+        while (node.right) {
+            node = node.right
+        }
+        return node
+    }
+
+    BinarySearchTree.prototype.search = (key) => {
+        return this.searchNode(this.root, key)
+    }
+    BinarySearchTree.prototype.searchNode = (node, key) => {
+        // 如果根节点为空，直接返回
+        if (node == null) {
+            return false
+        }
+
+        if (node.key > key) {
+            return this.searchNode(node.left, key)
+        }else if (node.key < key) {
+            return this.searchNode(node.right, key)
+        }else {
+            return true
+        }
+    }
+
+    BinarySearchTree.prototype.remove = (key) => {
+        // 寻找要删除的节点
+        let current = this.root
+        let parent = null
+        let isLeftChild = true
+
+        // 开始寻找删除的节点
+        // 大条件：查找的节点和当前节点不相同
+        while (current.key != key) {
+            parent = current
+            if (key < current.key) {
+                isLeftChild = true
+                current = current.left
+            }else {
+                isLeftChild = false
+                current = current.right
+            }
+
+            // 没有找到，已经找到了叶节点，依然没有相等的key
+            if (current == null) {
+                return false
+            }
+        }
+
+        // 根据对应的情况删除节点
+        // 删除的节点是叶子节点
+        if (current.left == null && current.right == null) {
+            // 删除节点是根节点，并且也是一个根节点
+            if (current == this.root) {
+                this.root = null
+                // 根据isLeftChild来判断是左子节点还是右子节点
+            }else if (isLeftChild) {
+                parent.left = null
+            }else {
+                parent.right = null
+            }
+        }
+        // 删除的节点有一个子节点
+        // parent.left = current.left
+        // parent.right = current.right
+        else if (current.right == null) {
+            if (current == this.root) {
+                this.root = current.left
+            }
+            else if (isLeftChild) {
+                parent.left = current.left
+            }else {
+                parent.right = current.left
+            }
+        } else if (current.left == null) {
+            if (current == this.root) {
+                this.root = current.right
+            }
+            else if (isLeftChild) {
+                parent.left = current.right
+            }else {
+                parent.right = current.right
+            }
+        }
+        // 删除的节点有两个子节点
+
+    }
+    BinarySearchTree.prototype.getSuccessor = (delNode) => {
+        let successor = delNode
+        let current = delNode.right
+        let successorParent = delNode
+
+        while (current != null) {
+            successorParent = successor
+            successor = current
+            current = current.left
+        }
+
+        if (successor != delNode.right) {
+            successorParent.left = successor.right
+            successor.right = delNode.right
+        }
+        return successor
+    }
 }
 
 // 测试代码
@@ -130,3 +250,8 @@ binary_search_tree.postOrderTraversal(function (key) {
 })
 
 console.log(res)
+
+console.log(binary_search_tree.searchMin())
+console.log(binary_search_tree.searchMax())
+console.log(binary_search_tree.search(24))
+console.log(binary_search_tree.remove(3))

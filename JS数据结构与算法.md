@@ -892,6 +892,91 @@ BinarySearchTree.prototype.insert = function (key) {
 
 5. remove(key) : 删除某个键
 
-6. min: 返回树中最小的键
+   - 找到节点
 
-7. max: 返回树中最大的键
+     ```js
+     // 寻找要删除的节点
+             let current = this.root
+             let parent = null
+             let isLeftChild = true
+     
+             // 开始寻找删除的节点
+             // 大条件：查找的节点和当前节点不相同
+             while (current.key != key) {
+                 parent = current
+                 if (key < current.key) {
+                     isLeftChild = true
+                     current = current.left
+                 }else {
+                     isLeftChild = false
+                     current = current.right
+                 }
+     
+                 // 没有找到，已经找到了叶节点，依然没有相等的key
+                 if (current == null) {
+                     return false
+                 }
+             }
+     ```
+
+     
+
+   - 该节点为叶节点
+
+     ```js
+     if (current.left == null && current.right == null) {
+         // 删除节点是根节点，并且也是一个根节点
+         if (current == this.root) {
+             this.root = null
+             // 根据isLeftChild来判断是左子节点还是右子节点
+         }else if (isLeftChild) {
+             parent.left = null
+         }else {
+             parent.right = null
+         }
+     }
+     ```
+
+   - 该节点有一个子节点
+
+     直接删除，然后将当前节点替换为它的左子节点
+
+     ![](D:\JavaScript数据结构算法\删除一个子节点.png)
+
+   - 该节点有两个子节点
+
+     ![](D:\JavaScript数据结构算法\二叉搜索树--删除两个子节点.png)
+
+   <font color="blue">重点是找到前驱或者后继的节点，然后进行替换</font>
+
+6. search(key)：查找某个键
+
+   ![](D:\JavaScript数据结构算法\二叉搜索树--搜索.png)
+
+   代码：
+
+   ```js
+   BinarySearchTree.prototype.search = (key) => {
+           return this.searchNode(this.root, key)
+       }
+       BinarySearchTree.prototype.searchNode = (node, key) => {
+           // 如果根节点为空，直接返回
+           if (node == null) {
+               return false
+           }
+   
+           if (node.key > key) {
+               return this.searchNode(node.left, key)
+           }else if (node.key < key) {
+               return this.searchNode(node.right, key)
+           }else {
+               return true
+           }
+       }
+   ```
+
+   
+
+7. min: 返回树中最小的键
+
+8. max: 返回树中最大的键
